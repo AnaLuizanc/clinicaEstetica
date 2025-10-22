@@ -15,21 +15,39 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _pages = <Widget>[
+  static final List<Widget> _pages = <Widget>[
     // Página inicial
-    Center(
+    SingleChildScrollView(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Icon(
-            Icons.home_work_outlined,
-            size: 100,
-            color: Color(0xFFC23494),
+          Container(
+            margin: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            child: Image.asset(
+              'assets/images/abertura.png',
+              fit: BoxFit.cover,
+              height: 200,
+            ),
           ),
-          SizedBox(height: 20),
-          Text(
-            'Bem-vindo(a) à Tela Inicial!',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              children: [
+                _buildServiceBox('Limpeza de Pele', 'assets/images/2.png'),
+                _buildServiceBox('Hidratação', 'assets/images/3.png'),
+                _buildServiceBox('Massagem', 'assets/images/4.png'),
+                _buildServiceBox('Depilação', 'assets/images/6.png'),
+                _buildServiceBox('Manicure', 'assets/images/7.png'),
+                _buildServiceBox('Tratamentos', 'assets/images/Layout.png'),
+              ],
+            ),
           ),
         ],
       ),
@@ -40,6 +58,49 @@ class _HomeState extends State<Home> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Widget _buildServiceBox(String title, String imagePath) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+                height: 80,
+                width: 80,
+              ),
+            ),
+          ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: orangeColor,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -87,10 +148,18 @@ class _HomeState extends State<Home> {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.home, color: orangeColor),
+              title: const Text('Início'),
+              onTap: () {
+                _onItemTapped(0);
+                Navigator.pop(context); // Fecha o drawer
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.spa, color: orangeColor),
               title: const Text('Tratamento'),
               onTap: () {
-                _onItemTapped(0);
+                _onItemTapped(1);
                 Navigator.pop(context); // Fecha o drawer
               },
             ),
@@ -98,7 +167,7 @@ class _HomeState extends State<Home> {
               leading: const Icon(Icons.calendar_month, color: orangeColor),
               title: const Text('Agendamento'),
               onTap: () {
-                _onItemTapped(1);
+                _onItemTapped(2);
                 Navigator.pop(context); // Fecha o drawer
               },
             ),
@@ -106,7 +175,7 @@ class _HomeState extends State<Home> {
               leading: const Icon(Icons.stars, color: orangeColor),
               title: const Text('Sistema de Fidelidade'),
               onTap: () {
-                _onItemTapped(2);
+                _onItemTapped(3);
                 Navigator.pop(context); // Fecha o drawer
               },
             ),
@@ -115,7 +184,7 @@ class _HomeState extends State<Home> {
               leading: const Icon(Icons.storefront, color: orangeColor),
               title: const Text('Quem somos'),
               onTap: () {
-                _onItemTapped(2);
+                _onItemTapped(4);
                 Navigator.pop(context); // Fecha o drawer
               },
             ),
