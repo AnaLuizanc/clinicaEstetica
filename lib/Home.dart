@@ -15,45 +15,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _pages = <Widget>[
-    // Página inicial
-    SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.zero,
-            padding: EdgeInsets.zero,
-            child: Image.asset(
-              'assets/images/abertura.png',
-              fit: BoxFit.cover,
-              height: 200,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 16.0,
-              mainAxisSpacing: 16.0,
-              children: [
-                _buildServiceBox('Limpeza de Pele', 'assets/images/2.png'),
-                _buildServiceBox('Hidratação', 'assets/images/3.png'),
-                _buildServiceBox('Massagem', 'assets/images/4.png'),
-                _buildServiceBox('Depilação', 'assets/images/6.png'),
-                _buildServiceBox('Manicure', 'assets/images/7.png'),
-                _buildServiceBox('Tratamentos', 'assets/images/Layout.png'),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -62,6 +23,7 @@ class _HomeState extends State<Home> {
 
   Widget _buildServiceBox(String title, String imagePath) {
     return Container(
+      height: 100,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
@@ -74,11 +36,10 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
         children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 8.0),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.asset(
@@ -89,13 +50,51 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: orangeColor,
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: orangeColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHomePage() {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            child: Image.asset(
+              'assets/images/abertura.png',
+              fit: BoxFit.cover,
+              height: 250,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 1,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: 4.0,
+              children: [
+                _buildServiceBox('TRATAMENTOS', 'assets/images/6.png'),
+                _buildServiceBox('AGENDAMENTOS', 'assets/images/7.png'),
+                _buildServiceBox('FIDELIDADE', 'assets/images/3.png'),
+                _buildServiceBox('DICAS DE BELEZA', 'assets/images/1.png'),
+              ],
             ),
           ),
         ],
@@ -105,6 +104,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = <Widget>[
+      _buildHomePage(),
+      // Other pages can be added here
+    ];
+
     return Scaffold(
       appBar: AppBar(
         elevation: 1.5,
@@ -130,7 +134,7 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      body: _pages[_selectedIndex],
+      body: pages[_selectedIndex],
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -179,12 +183,24 @@ class _HomeState extends State<Home> {
                 Navigator.pop(context); // Fecha o drawer
               },
             ),
-            const Divider(),
             ListTile(
-              leading: const Icon(Icons.storefront, color: orangeColor),
-              title: const Text('Quem somos'),
+              leading: const Icon(Icons.star, color: orangeColor),
+              title: const Text('Dicas de Beleza'),
               onTap: () {
                 _onItemTapped(4);
+                Navigator.pop(context); // Fecha o drawer
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: Image.asset(
+                'assets/images/logo.png',
+                fit: BoxFit.cover,
+                height: IconTheme.of(context).size,
+              ),
+              title: const Text('Quem somos'),
+              onTap: () {
+                _onItemTapped(5);
                 Navigator.pop(context); // Fecha o drawer
               },
             ),
