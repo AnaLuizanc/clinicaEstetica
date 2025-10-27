@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'pages/tratamentosPage.dart';
-import 'widgets/widgets.dart';
+import 'pages/treatments_page.dart';
+import 'pages/scheduling_page.dart';
+import 'pages/loyalty_page.dart';
+import 'pages/beauty_tips_page.dart';
+import 'pages/about_page.dart';
 
 const Color orangeColor = Color(0xfff35f14);
+const Color orangeColor2 = Color(0xffe58251);
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,6 +22,53 @@ class _HomeState extends State<Home> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Widget _buildServiceBox(String title, String imagePath, int pageIndex) {
+    return InkWell(
+      onTap: () => _onItemTapped(pageIndex),
+      child: Container(
+        height: 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(25), // Changed from withOpacity to withAlpha
+              spreadRadius: 2,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
+                  height: 80,
+                  width: 80,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: orangeColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildHomePage() {
@@ -45,26 +96,10 @@ class _HomeState extends State<Home> {
               mainAxisSpacing: 16.0,
               childAspectRatio: 4.0,
               children: [
-                ServiceBox(
-                  title: 'TRATAMENTOS',
-                  imagePath: 'assets/images/6.png',
-                  onTap: () => _onItemTapped(1),
-                ),
-                ServiceBox(
-                  title: 'AGENDAMENTOS',
-                  imagePath: 'assets/images/7.png',
-                  onTap: () => _onItemTapped(2),
-                ),
-                ServiceBox(
-                  title: 'FIDELIDADE',
-                  imagePath: 'assets/images/3.png',
-                  onTap: () => _onItemTapped(3),
-                ),
-                ServiceBox(
-                  title: 'DICAS DE BELEZA',
-                  imagePath: 'assets/images/1.png',
-                  onTap: () => _onItemTapped(4),
-                ),
+                _buildServiceBox('TRATAMENTOS', 'assets/images/6.png', 1),
+                _buildServiceBox('AGENDAMENTOS', 'assets/images/7.png', 2),
+                _buildServiceBox('FIDELIDADE', 'assets/images/3.png', 3),
+                _buildServiceBox('DICAS DE BELEZA', 'assets/images/1.png', 4),
               ],
             ),
           ),
@@ -77,7 +112,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final List<Widget> pages = <Widget>[
       _buildHomePage(),
-      const TratamentosPage(),
+      const TreatmentsPage(),
+      const SchedulingPage(),
+      const LoyaltyPage(),
+      const BeautyTipsPage(),
+      const AboutPage(),
     ];
 
     return Scaffold(
@@ -104,12 +143,6 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search, color: orangeColor),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: pages[_selectedIndex],
       drawer: Drawer(
@@ -118,7 +151,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: orangeColor,
+                color: orangeColor2,
               ),
               child: Text(
                 'Menu',
