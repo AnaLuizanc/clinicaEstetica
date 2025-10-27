@@ -62,10 +62,6 @@ flutter pub get
 flutter run
 ```
 
-## 📱 Screenshots
-
-[Screenshots serão adicionados aqui]
-
 ## 🎨 Design
 
 O aplicativo segue um design moderno e minimalista, utilizando a paleta de cores:
